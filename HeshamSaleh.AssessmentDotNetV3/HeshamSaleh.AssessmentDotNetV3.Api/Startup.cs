@@ -32,11 +32,12 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DBContext>(options =>
+/*            services.AddDbContext<DBContext>(options =>
             {
                 options.UseSqlServer(
                     @"Server=(localdb)\mssqllocaldb;Database=CourseLibraryDB;Trusted_Connection=True;");
-            });
+            });*/
+            services.AddDbContext<DBContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("SqlServerConnectionString")));
 
             services.AddControllers()
                     .AddNewtonsoftJson()
