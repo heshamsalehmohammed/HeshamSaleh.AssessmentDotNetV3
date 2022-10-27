@@ -16,6 +16,8 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
     [ApiController]
     [Route(Constants.Routs.Product)]
     [EnableCors("AllowOrigin")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class ProductController : ControllerBase
     {
         private readonly IProductApplication _productApplication;
@@ -40,7 +42,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}", Name = "GetByIdAsync")]
+        [HttpGet("{id}", Name = "GetProductByIdAsync")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             var result = await _productApplication.GetByIdAsync(id);
@@ -59,7 +61,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             if (!result.Success)
                 return BadRequest(result);
 
-            return CreatedAtRoute("GetByIdAsync",
+            return CreatedAtRoute("GetProductByIdAsync",
                 new { id = result.Data.Id },
                 result);
         }

@@ -11,6 +11,8 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
     [ApiController]
     [Route(Constants.Routs.Category)]
     [EnableCors("AllowOrigin")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryApplication _categoryApplication;
@@ -31,7 +33,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}", Name = "GetByIdAsync")]
+        [HttpGet("{id}", Name = "GetCategoryByIdAsync")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             var result = await _categoryApplication.GetByIdAsync(id);
@@ -50,7 +52,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             if (!result.Success)
                 return BadRequest(result);
 
-            return CreatedAtRoute("GetByIdAsync",
+            return CreatedAtRoute("GetCategoryByIdAsync",
                 new { id = result.Data.Id },
                 result);
         }
