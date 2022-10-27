@@ -24,22 +24,32 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application.Results
         {
             return new Result(notifications);
         }
+
+        public static Result Error(IDictionary<string, string[]> errors)
+        {
+            var notifications = errors.Select((keyvalue) =>
+            {
+                return new Notification(keyvalue.Key, string.Join(",", keyvalue.Value));
+            }).ToList().AsReadOnly();
+            return new Result(notifications);
+        }
+
     }
 
     public class Result<T> : Notifiable<Notification> where T : class
     {
         public bool Success { get { return !Notifications.Any(); } }
 
-        public T Object { get; }
+        public T Data { get; }
 
         private Result(T obj)
         {
-            Object = obj;
+            Data = obj;
         }
 
         private Result(IReadOnlyCollection<Notification> notifications)
         {
-            Object = null;
+            Data = null;
             AddNotifications(notifications);
         }
 
@@ -50,6 +60,15 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application.Results
 
         public static Result<T> Error(IReadOnlyCollection<Notification> notifications)
         {
+            return new Result<T>(notifications);
+        }
+
+        public static Result<T> Error(IDictionary<string, string[]> errors)
+        {
+            var notifications = errors.Select((keyvalue) =>
+            {
+                return new Notification(keyvalue.Key, string.Join(",", keyvalue.Value));
+            }).ToList().AsReadOnly();
             return new Result<T>(notifications);
         }
     }

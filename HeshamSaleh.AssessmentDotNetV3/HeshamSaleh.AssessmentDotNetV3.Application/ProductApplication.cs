@@ -6,6 +6,7 @@ using HeshamSaleh.AssessmentDotNetV3.Domain.Entities;
 using HeshamSaleh.AssessmentDotNetV3.Domain.Models;
 using HeshamSaleh.AssessmentDotNetV3.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,21 +32,25 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application
         {
             var products = await _productRepository.SelectAllAsync();
 
-            return products != null ? Result<IEnumerable<ProductModel>>.Ok(_mapper.Map<IEnumerable<ProductModel>>(products)) : null;
+            return Result<IEnumerable<ProductModel>>.Ok(_mapper.Map<IEnumerable<ProductModel>>(products));
         }
 
         public async Task<Result<IEnumerable<ProductModel>>> GetByCategoryIdAsync(Guid categoryId)
         {
             var products = await _productRepository.SelectByCategoryIdAsync(categoryId);
 
-            return products != null ? Result<IEnumerable<ProductModel>>.Ok(_mapper.Map<IEnumerable<ProductModel>>(products)) : null;
+            return Result<IEnumerable<ProductModel>>.Ok(_mapper.Map<IEnumerable<ProductModel>>(products));
         }
 
         public async Task<Result<ProductModel>> GetByIdAsync(Guid id)
         {
             var product = await _productRepository.SelectByIdAsync(id);
 
-            return product != null ? Result<ProductModel>.Ok(_mapper.Map<ProductModel>(product)) : null;
+            if (product != null)
+                return Result<ProductModel>.Ok(_mapper.Map<ProductModel>(product));
+
+            AddNotification(nameof(product.Id), "No record Found for the given Id");
+            return Result<ProductModel>.Error(Notifications);
         }
 
         public async Task<Result> PostAsync(ProductModel product)

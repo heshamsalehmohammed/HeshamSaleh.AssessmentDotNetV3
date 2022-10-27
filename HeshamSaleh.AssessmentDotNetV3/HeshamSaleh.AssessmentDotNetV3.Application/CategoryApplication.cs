@@ -29,14 +29,18 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application
         {
             var categories = await _categoryRepository.SelectAllAsync();
 
-            return categories != null ? Result<IEnumerable<CategoryModel>>.Ok(_mapper.Map<IEnumerable<CategoryModel>>(categories)) : null;
+            return Result<IEnumerable<CategoryModel>>.Ok(_mapper.Map<IEnumerable<CategoryModel>>(categories));
         }
 
         public async Task<Result<CategoryModel>> GetByIdAsync(Guid id)
         {
             var category = await _categoryRepository.SelectByIdAsync(id);
 
-            return category != null ? Result<CategoryModel>.Ok(_mapper.Map<CategoryModel>(category)) : null;
+            if (category != null)
+                return Result<CategoryModel>.Ok(_mapper.Map<CategoryModel>(category));
+
+            AddNotification(nameof(category.Id), "No record Found for the given Id");
+            return Result<CategoryModel>.Error(Notifications);
         }
 
         public async Task<Result> PostAsync(CategoryModel category)

@@ -34,8 +34,8 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             else
                 result = await _productApplication.GetByCategoryIdAsync(categoryId);
 
-            if (result == null)
-                return NotFound(Constants.ReturnMessages.NotFound);
+            if (!result.Success)
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -45,8 +45,8 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
         {
             var result = await _productApplication.GetByIdAsync(id);
 
-            if (result == null)
-                return NotFound(Constants.ReturnMessages.NotFound);
+            if (!result.Success)
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -57,7 +57,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             var result = await _productApplication.PostAsync(product);
 
             if (!result.Success)
-                return BadRequest(result.Notifications);
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -68,7 +68,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             var result = await _productApplication.PutAsync(id, product);
 
             if (!result.Success)
-                return BadRequest(result.Notifications);
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -79,7 +79,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             var result = await _productApplication.PatchAsync(id, patchEntity);
 
             if (!result.Success)
-                return BadRequest(result.Notifications);
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -90,7 +90,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             var result = await _productApplication.DeleteAsync(id);
 
             if (!result.Success)
-                return BadRequest(result.Notifications);
+                return BadRequest(result);
 
             return Ok(result);
         }

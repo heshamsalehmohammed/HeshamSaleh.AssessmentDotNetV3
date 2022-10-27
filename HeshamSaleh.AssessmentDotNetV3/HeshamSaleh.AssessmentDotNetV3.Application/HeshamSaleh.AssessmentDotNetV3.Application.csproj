@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HeshamSaleh.AssessmentDotNetV3.Domain\HeshamSaleh.AssessmentDotNetV3.Domain.csproj" />
+    <ProjectReference Include="..\HeshamSaleh.AssessmentDotNetV3.Util\HeshamSaleh.AssessmentDotNetV3.Util.csproj" />
   </ItemGroup>
 
 </Project>

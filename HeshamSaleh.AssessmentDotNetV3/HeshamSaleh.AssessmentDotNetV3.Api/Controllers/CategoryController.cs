@@ -25,8 +25,8 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
         {
             var result = await _categoryApplication.GetAsync();
 
-            if (result == null)
-                return NotFound(Constants.ReturnMessages.NotFound);
+            if (!result.Success)
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -36,8 +36,8 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
         {
             var result = await _categoryApplication.GetByIdAsync(id);
 
-            if (result == null)
-                return NotFound(Constants.ReturnMessages.NotFound);
+            if (!result.Success)
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -48,7 +48,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             var result = await _categoryApplication.PostAsync(category);
 
             if (!result.Success)
-                return BadRequest(result.Notifications);
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -59,7 +59,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             var result = await _categoryApplication.PutAsync(id, category);
 
             if (!result.Success)
-                return BadRequest(result.Notifications);
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -70,7 +70,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             var result = await _categoryApplication.DeleteAsync(id);
 
             if (!result.Success)
-                return BadRequest(result.Notifications);
+                return BadRequest(result);
 
             return Ok(result);
         }
