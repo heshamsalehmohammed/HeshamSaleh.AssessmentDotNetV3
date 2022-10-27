@@ -1,5 +1,7 @@
 ﻿using Flunt.Notifications;
+using HeshamSaleh.AssessmentDotNetV3.Domain.Entities;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace HeshamSaleh.AssessmentDotNetV3.Application.Results
@@ -23,6 +25,14 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application.Results
         public static Result Error(IReadOnlyCollection<Notification> notifications)
         {
             return new Result(notifications);
+        }
+
+        public static Result Error(string key, string value)
+        {
+            return new Result(new ReadOnlyCollection<Notification>(new List<Notification>
+            {
+                new Notification(key, value)
+            }));
         }
 
         public static Result Error(IDictionary<string, string[]> errors)
@@ -61,6 +71,14 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application.Results
         public static Result<T> Error(IReadOnlyCollection<Notification> notifications)
         {
             return new Result<T>(notifications);
+        }
+
+        public static Result<T> Error(string key, string value)
+        {
+            return new Result<T>(new ReadOnlyCollection<Notification>(new List<Notification>
+            {
+                new Notification(key, value)
+            }));
         }
 
         public static Result<T> Error(IDictionary<string, string[]> errors)

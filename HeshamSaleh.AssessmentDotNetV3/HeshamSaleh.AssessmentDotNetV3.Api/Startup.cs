@@ -1,4 +1,5 @@
 using Flunt.Notifications;
+using HeshamSaleh.AssessmentDotNetV3.Api.Middlewares;
 using HeshamSaleh.AssessmentDotNetV3.Application;
 using HeshamSaleh.AssessmentDotNetV3.Application.Interfaces;
 using HeshamSaleh.AssessmentDotNetV3.Application.Results;
@@ -19,9 +20,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 
@@ -153,23 +156,10 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseExceptionHandler(
-                options =>
-                {
-                    options.Run(
-                        async context =>
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            context.Response.ContentType = "text/html";
-                            var exceptionObject = context.Features.Get<IExceptionHandlerFeature>();
-                            if (null != exceptionObject)
-                            {
-                                var errorMessage = $"<b>Exception Error: {exceptionObject.Error.Message} </b> {exceptionObject.Error.StackTrace}";
-                                await context.Response.WriteAsync(errorMessage).ConfigureAwait(false);
-                            }
-                        });
-                }
-            );
+            app.UseExceptionHandler(new ExceptionHandlerOptions
+            {
+                ExceptionHandler = new JsonExceptionMiddleware().Invoke
+            });
 
             app.UseHttpsRedirection();
 
