@@ -60,7 +60,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application
             {
                 return Result.Error(new ReadOnlyCollection<Notification>(new List<Notification>
                 {
-                    new Notification(nameof(Category.Id), ex.InnerException.Message ?? ex.Message)
+                    new Notification(nameof(Category.Id), ex.InnerException?.Message ?? ex.Message)
                 }));
             }
         }
@@ -89,7 +89,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application
             {
                 return Result.Error(new ReadOnlyCollection<Notification>(new List<Notification>
                 {
-                    new Notification(nameof(Category.Id), ex.InnerException.Message ?? ex.Message)
+                    new Notification(nameof(Category.Id), ex.InnerException?.Message ?? ex.Message)
                 }));
             }
         }
@@ -106,7 +106,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application
             {
                 return Result.Error(new ReadOnlyCollection<Notification>(new List<Notification>
                 {
-                    new Notification(nameof(Category.Id), ex.InnerException.Message ?? ex.Message)
+                    new Notification(nameof(Category.Id), ex.InnerException?.Message ?? ex.Message)
                 }));
             }
         }

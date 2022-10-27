@@ -63,6 +63,8 @@ namespace HeshamSaleh.AssessmentDotNetV3.Infrastructure.Repositories
         {
             var oldProduct = await SelectByIdAsync(newProduct.Id);
 
+            if (oldProduct == null) throw new Exception("No record Found for the given Id");
+
             _context.Entry(oldProduct).CurrentValues.SetValues(newProduct);
 
             return await _context.SaveChangesAsync();
@@ -79,7 +81,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Infrastructure.Repositories
                 return await _context.SaveChangesAsync();
             }
             else
-                return 0;
+                throw new Exception("No record Found for the given Id");
         }
     }
 }

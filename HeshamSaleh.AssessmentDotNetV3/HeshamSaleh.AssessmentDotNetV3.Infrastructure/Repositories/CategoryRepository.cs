@@ -51,6 +51,8 @@ namespace HeshamSaleh.AssessmentDotNetV3.Infrastructure.Repositories
         {
             var oldCategory = await SelectByIdAsync(newCategory.Id);
 
+            if(oldCategory == null) throw new Exception("No record Found for the given Id");
+
             _context.Entry(oldCategory).CurrentValues.SetValues(newCategory);
 
             return await _context.SaveChangesAsync();
@@ -67,7 +69,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Infrastructure.Repositories
                 return await _context.SaveChangesAsync();
             }
             else
-                return 0;
+                throw new Exception("No record Found for the given Id");
         }
     }
 }
