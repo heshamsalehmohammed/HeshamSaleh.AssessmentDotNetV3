@@ -40,7 +40,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetByIdAsync")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             var result = await _productApplication.GetByIdAsync(id);
@@ -59,7 +59,9 @@ namespace HeshamSaleh.AssessmentDotNetV3.Api.Controllers
             if (!result.Success)
                 return BadRequest(result);
 
-            return Ok(result);
+            return CreatedAtRoute("GetByIdAsync",
+                new { id = result.Data.Id },
+                result);
         }
 
         [HttpPut("{id}")]

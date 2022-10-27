@@ -15,7 +15,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application.Interfaces
 
         public Task<Result<IEnumerable<ProductModel>>> GetByCategoryIdAsync(Guid categoryId);
 
-        public Task<Result> PostAsync(ProductModel product);
+        public Task<Result<ProductModel>> PostAsync(ProductModel product);
 
         public Task<Result> PutAsync(Guid id, ProductModel product);
 

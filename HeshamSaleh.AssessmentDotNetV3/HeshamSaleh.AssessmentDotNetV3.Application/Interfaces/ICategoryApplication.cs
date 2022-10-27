@@ -12,7 +12,7 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application.Interfaces
 
         public Task<Result<CategoryModel>> GetByIdAsync(Guid id);
 
-        public Task<Result> PostAsync(CategoryModel category);
+        public Task<Result<CategoryModel>> PostAsync(CategoryModel category);
 
         public Task<Result> PutAsync(Guid id, CategoryModel category);
 

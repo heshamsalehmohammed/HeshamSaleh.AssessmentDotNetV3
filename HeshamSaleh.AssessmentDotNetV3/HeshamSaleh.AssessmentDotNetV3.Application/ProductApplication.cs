@@ -53,22 +53,24 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application
             return Result<ProductModel>.Error(Notifications);
         }
 
-        public async Task<Result> PostAsync(ProductModel product)
+        public async Task<Result<ProductModel>> PostAsync(ProductModel product)
         {
             AreValidInformations(product);
 
             if (!IsValid)
-                return Result.Error(Notifications);
+                return Result<ProductModel>.Error(Notifications);
 
             try
             {
-                await _productRepository.AddAsync(_mapper.Map<Product>(product));
+                var productToSave = _mapper.Map<Product>(product);
 
-                return Result.Ok();
+                await _productRepository.AddAsync(productToSave);
+
+                return Result<ProductModel>.Ok(_mapper.Map<ProductModel>(productToSave));
             }
             catch (Exception ex)
             {
-                return Result.Error(new ReadOnlyCollection<Notification>(new List<Notification>
+                return Result<ProductModel>.Error(new ReadOnlyCollection<Notification>(new List<Notification>
                 {
                     new Notification(nameof(Product.Id), ex.InnerException?.Message ?? ex.Message)
                 }));

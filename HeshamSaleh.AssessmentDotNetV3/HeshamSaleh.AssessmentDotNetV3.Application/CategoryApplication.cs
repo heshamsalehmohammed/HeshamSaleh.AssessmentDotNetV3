@@ -43,22 +43,24 @@ namespace HeshamSaleh.AssessmentDotNetV3.Application
             return Result<CategoryModel>.Error(Notifications);
         }
 
-        public async Task<Result> PostAsync(CategoryModel category)
+        public async Task<Result<CategoryModel>> PostAsync(CategoryModel category)
         {
             AreValidInformations(category);
 
             if (!IsValid)
-                return Result.Error(Notifications);
+                return Result<CategoryModel>.Error(Notifications);
 
             try
             {
-                await _categoryRepository.AddAsync(_mapper.Map<Category>(category));
+                var categoryToSave = _mapper.Map<Category>(category);
 
-                return Result.Ok();
+                await _categoryRepository.AddAsync(categoryToSave);
+
+                return Result<CategoryModel>.Ok(_mapper.Map<CategoryModel>(categoryToSave));
             }
             catch (Exception ex)
             {
-                return Result.Error(new ReadOnlyCollection<Notification>(new List<Notification>
+                return Result<CategoryModel>.Error(new ReadOnlyCollection<Notification>(new List<Notification>
                 {
                     new Notification(nameof(Category.Id), ex.InnerException?.Message ?? ex.Message)
                 }));
